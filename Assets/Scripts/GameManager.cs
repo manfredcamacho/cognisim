@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
     {
         TeleportPlayerToSpawn();
         feedbackPanel.gameObject.SetActive(false);
+        totalRounds++;
 
         if (selectableObjects.Count == 0)
         {
@@ -109,7 +110,6 @@ public class GameManager : MonoBehaviour
     {
         isWaitingForSelection = true;
         feedbackPanel.gameObject.SetActive(false);
-        totalAttempts++;
     }
 
     private void ProcessClickSelection()
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
 
             float currentRoundReactionTime = Time.time - roundStartTime;
             totalReactionTime += currentRoundReactionTime;
-            totalRounds++;
+            totalAttempts++;
 
             if (hit.collider.gameObject == correctObject)
             {
@@ -166,14 +166,14 @@ public class GameManager : MonoBehaviour
         if (totalRounds == 0) return;
 
         float totalDuration = Time.time - sessionStartTime;
-        float accuracy = ((float)correctRounds / totalRounds) * 100f;
+        float accuracy = ((float)(totalRounds - 1) / totalAttempts) * 100f;
         float averageReactionTime = totalReactionTime / totalRounds;
 
+
         Debug.Log("--- RESUMEN DE LA SESIÓN ---");
-        Debug.Log($"Duración Total: {totalDuration:F2} segundos");
-        Debug.Log($"Rondas: {totalRounds}");
+        Debug.Log($"Rondas: {totalRounds - 1}");
         Debug.Log($"Intentos: {totalAttempts}");
-        Debug.Log($"Precisión: {accuracy:F1}% ({correctRounds} de {totalRounds})");
+        Debug.Log($"Precisión: {accuracy:F1}% ({totalAttempts} de {totalRounds - 1})");
         Debug.Log($"Tiempo de Reacción Promedio: {averageReactionTime:F2} segundos");
         Debug.Log("---------------------------");
     }
