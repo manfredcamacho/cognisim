@@ -9,21 +9,43 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> selectableObjects;
-    public GameObject instructionPanel;
+    public GameObject instructionsHelpPanel;
     public GameObject feedbackPanel;
+    public GameObject instructionsDetailsText;
+    public Transform playerTransform;
+    public Transform spawnPoint;
 
+    private CharacterController playerController;
     private GameObject correctObject;
     private bool isWaitingForSelection = false;
 
     private float sessionStartTime;
     private float roundStartTime;
     private int totalRounds = 0;
+    private int totalAttempts = 0;
     private int correctRounds = 0;
     private float totalReactionTime = 0f;
+
+    void Awake(){
+        selectableObjects = new List<GameObject>();
+        foreach (Transform child in GameObject.FindObjectsOfType<Transform>())
+        {
+            if (child.GetComponent<InteractableObject>() != null)
+            {
+                selectableObjects.Add(child.gameObject);
+            }
+        }
+
+        if (playerTransform != null)
+        {
+            playerController = playerTransform.GetComponent<CharacterController>();
+        }
+    }
 
     void Start()
     {
         feedbackPanel.gameObject.SetActive(false);
+        instructionsHelpPanel.gameObject.SetActive(false);
         sessionStartTime = Time.time;
         StartNewRound();
     }
@@ -47,18 +69,47 @@ public class GameManager : MonoBehaviour
 
     public void StartNewRound()
     {
+        TeleportPlayerToSpawn();
         feedbackPanel.gameObject.SetActive(false);
 
         if (selectableObjects.Count == 0)
         {
-            instructionPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Error: No hay objetos asignados.";
+            instructionsHelpPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Error: No hay objetos asignados.";
             return;
         }
 
         correctObject = selectableObjects[Random.Range(0, selectableObjects.Count)];
-        instructionPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"Encuentra: {correctObject.name}";
+        InteractableObject interactableObject = correctObject.GetComponent<InteractableObject>();
+        string details = $"Nombre: {interactableObject.objectData.displayName }\nColores: {interactableObject.instanceColor}\nUbicación: {interactableObject.instanceLocation}";
+        instructionsHelpPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"Encuentra: {details.Replace("\n", ", ")}"; 
+        instructionsDetailsText.GetComponentInChildren<TextMeshProUGUI>().text = details;
         isWaitingForSelection = true;
         roundStartTime = Time.time;
+    }
+
+     private void TeleportPlayerToSpawn()
+    {
+        if (playerTransform == null || spawnPoint == null) return;
+
+        if (playerController != null && playerController.enabled)
+        {
+            // El método profesional: deshabilitar el controlador, mover y rehabilitar.
+            playerController.enabled = false;
+            playerTransform.position = spawnPoint.position;
+            playerController.enabled = true;
+        }
+        else
+        {
+            // Si no hay CharacterController, el movimiento directo es seguro.
+            playerTransform.position = spawnPoint.position;
+        }
+    }
+
+    public void StartNewAttempt()
+    {
+        isWaitingForSelection = true;
+        feedbackPanel.gameObject.SetActive(false);
+        totalAttempts++;
     }
 
     private void ProcessClickSelection()
@@ -83,14 +134,14 @@ public class GameManager : MonoBehaviour
             if (hit.collider.gameObject == correctObject)
             {
                 correctRounds++;
-                ShowFeedback("¡Correcto!", Color.green);
+                ShowFeedback("¡Correcto! Empieza la siguiente ronda.", Color.green);
+                Invoke("StartNewRound", 2f);
             }
             else
             {
                 ShowFeedback($"Eso no es lo que buscamos. Sigue intentándolo.", Color.red);
+                Invoke("StartNewAttempt", 2f);
             }
-
-            Invoke("StartNewRound", 2f);
         }
     }
 
@@ -98,7 +149,7 @@ public class GameManager : MonoBehaviour
     {
         if (color == Color.green)
         {
-            feedbackPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(120, 50); 
+            feedbackPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 50); 
             feedbackPanel.GetComponent<Image>().color = new Color(0.294f, 0.706f, 0.263f, 1f);
         }
         else
@@ -120,7 +171,8 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("--- RESUMEN DE LA SESIÓN ---");
         Debug.Log($"Duración Total: {totalDuration:F2} segundos");
-        Debug.Log($"Rondas Jugadas: {totalRounds}");
+        Debug.Log($"Rondas: {totalRounds}");
+        Debug.Log($"Intentos: {totalAttempts}");
         Debug.Log($"Precisión: {accuracy:F1}% ({correctRounds} de {totalRounds})");
         Debug.Log($"Tiempo de Reacción Promedio: {averageReactionTime:F2} segundos");
         Debug.Log("---------------------------");
