@@ -1,0 +1,27 @@
+{
+  "sessionId": "session_01_patient_123",
+  "patientId": "patient_123",
+  "exercises": [{
+      "exerciseId": "Attention_Cancellation",
+      "parameters": {
+        "targetSymbol": "8",
+        "gridSize": "4x4",
+        "durationSeconds": 60
+      }
+    },
+    {
+      "exerciseId": "Memory_PersonalRecognition",
+      "parameters": {
+        "imageSetId": "album_family_perez",
+        "displayTimeSeconds": 5,
+        "numDistractors": 5
+      }
+    },
+    {
+      "exerciseId": "Executive_AVDSequencing",
+      "parameters": {
+        "scenario": "prepare_breakfast"
+      }
+    }
+  ]
+}

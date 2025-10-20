@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> selectableObjects;
@@ -15,9 +15,13 @@ public class GameManager : MonoBehaviour
     public Transform playerTransform;
     public Transform spawnPoint;
 
+    [Tooltip("Selecciona la capa en la que se encuentran los objetos interactuables.")]
+    public LayerMask interactableLayer;
+
     private CharacterController playerController;
     private GameObject correctObject;
     private bool isWaitingForSelection = false;
+    private bool isHelpPanelActive = false;
 
     private float sessionStartTime;
     private float roundStartTime;
@@ -60,6 +64,21 @@ public class GameManager : MonoBehaviour
             }
             ProcessClickSelection();
         }
+
+        // Comprueba si se ha pulsado la tecla 'E'
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            // Solo inicia la corutina si no está ya activa
+            if (!isHelpPanelActive)
+            {
+                StartCoroutine(ShowHelpPanelCoroutine());
+            }
+        }
+
+        if(totalRounds == 5)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     void OnDestroy()
@@ -82,10 +101,24 @@ public class GameManager : MonoBehaviour
         correctObject = selectableObjects[Random.Range(0, selectableObjects.Count)];
         InteractableObject interactableObject = correctObject.GetComponent<InteractableObject>();
         string details = $"Nombre: {interactableObject.objectData.displayName }\nColores: {interactableObject.instanceColor}\nUbicación: {interactableObject.instanceLocation}";
-        instructionsHelpPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"Encuentra: {details.Replace("\n", ", ")}"; 
+        instructionsHelpPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"Encuentra:\n{details}"; 
         instructionsDetailsText.GetComponentInChildren<TextMeshProUGUI>().text = details;
         isWaitingForSelection = true;
         roundStartTime = Time.time;
+    }
+
+    private IEnumerator ShowHelpPanelCoroutine()
+    {
+        // 1. Marcar como activo y mostrar el panel
+        isHelpPanelActive = true;
+        instructionsHelpPanel.gameObject.SetActive(true);
+
+        // 2. Pausar la ejecución de ESTA función durante 3 segundos
+        yield return new WaitForSeconds(3f);
+
+        // 3. Ocultar el panel y marcar como inactivo
+        instructionsHelpPanel.gameObject.SetActive(false);
+        isHelpPanelActive = false;
     }
 
      private void TeleportPlayerToSpawn()
@@ -97,6 +130,8 @@ public class GameManager : MonoBehaviour
             // El método profesional: deshabilitar el controlador, mover y rehabilitar.
             playerController.enabled = false;
             playerTransform.position = spawnPoint.position;
+            playerTransform.rotation = spawnPoint.rotation;
+            Camera.main.transform.rotation = Quaternion.Euler(0, 0, 0);
             playerController.enabled = true;
         }
         else
@@ -121,10 +156,12 @@ public class GameManager : MonoBehaviour
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, interactableLayer))
         {
+            InteractableObject clickedObject = hit.collider.GetComponent<InteractableObject>();
+            if (clickedObject == null) return;
+            
             isWaitingForSelection = false;
 
             float currentRoundReactionTime = Time.time - roundStartTime;
