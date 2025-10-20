@@ -6,7 +6,7 @@ using UnityEngine;
 /// The root object for a session's results file.
 /// Contains all metadata and the list of all events that occurred.
 /// </summary>
-
+[System.Serializable]
 public class SessionResults
 {
     public string sessionId;
@@ -27,7 +27,7 @@ public class SessionResults
 /// Represents a single, timestamped event that occurred during an exercise.
 /// This is the core data point for our process metrics.
 /// </summary>
-
+[System.Serializable]
 public class MetricEvent
 {
     public float timestamp; // Time in seconds since the session started
@@ -49,7 +49,7 @@ public class MetricEvent
 /// <summary>
 /// A simple serializable wrapper for Unity's Vector2, as it is not serializable by default.
 /// </summary>
-
+[System.Serializable]
 public class SerializableVector2
 {
     public float x;

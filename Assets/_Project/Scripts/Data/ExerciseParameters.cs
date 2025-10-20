@@ -1,3 +1,4 @@
+[System.Serializable]
 public class ExerciseParameters
 {
     // --- Parameters for the exercise: Motor Calibration ---

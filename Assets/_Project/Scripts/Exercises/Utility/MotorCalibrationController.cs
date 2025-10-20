@@ -81,6 +81,7 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
 
         // Log the successful interaction
         Vector2 clickPosition = currentTargetInstance.GetComponent<RectTransform>().anchoredPosition;
+        Debug.Log($"Target clicked at position: {clickPosition}");
         MetricsManager.Instance.LogEvent(exerciseId, "TargetHit", clickPosition, $"Target_{targetsCompleted}, ReactionTime: {reactionTime:F3}s");
 
         // Clean up the clicked target

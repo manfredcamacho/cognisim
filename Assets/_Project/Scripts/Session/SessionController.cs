@@ -89,7 +89,14 @@ public class SessionController : MonoBehaviour
     private void EndSession()
     {
         Debug.Log("Session completed! All exercises have finished.");
-        // In the future, we will notify the MetricsManager to save the final results
-        // and show a final session screen to the user.
+        
+        // We notify the MetricsManager to finalize and save all the collected data.
+        if (MetricsManager.Instance!= null)
+        {
+            MetricsManager.Instance.EndSessionAndSave();
+        }
+
+        // In the future, we would also show a "Session Complete" screen to the user here,
+        // and then perhaps navigate back to the main menu.
     }
 }
