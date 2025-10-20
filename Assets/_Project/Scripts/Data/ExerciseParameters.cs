@@ -1,19 +1,18 @@
-[System.Serializable]
 public class ExerciseParameters
 {
-    // --- Parámetros para el ejercicio: Calibración Motora ---
-    public int numTargets; // Cantidad de círculos a tocar.
+    // --- Parameters for the exercise: Motor Calibration ---
+    public int numTargets; // Number of circles to touch.
 
-    // --- Parámetros para el ejercicio: Tarea de Cancelación Avanzada ---
-    public string gridSize; // Ej: "8x10"
-    public string targetSymbol; // El identificador del símbolo a buscar.
-    public int durationSeconds; // Duración del ejercicio en segundos.
+    // --- Parameters for the exercise: Advanced Cancellation Task ---
+    public string gridSize; // Example: "8x10"
+    public string targetSymbol; // The identifier of the symbol to search for.
+    public int durationSeconds; // Duration of the exercise in seconds.
 
-    // --- Parámetros para el ejercicio: Secuenciación de AVD ---
-    public string scenario; // Ej: "preparar_desayuno", "hacer_la_compra"
+    // --- Parameters for the exercise: Executive Sequencing ---
+    public string scenario; // Example: "prepare_breakfast", "make_the_purchase"
 
-    // --- Parámetros para el ejercicio: Reconocimiento Visual Personalizado ---
-    public string imageSetId; // Identificador del set de imágenes a cargar (ej: "familia_perez")
-    public int displayTimeSeconds; // Tiempo que cada imagen se muestra en pantalla.
-    public int numDistractors; // Cantidad de imágenes distractoras a usar en la fase de reconocimiento.
+    // --- Parameters for the exercise: Visual Recognition ---
+    public string imageSetId; // Identifier of the image set to load (example: "family_perez")
+    public int displayTimeSeconds; // Time each image is displayed on the screen in seconds.
+    public int numDistractors; // Number of distractor images to use in the recognition phase.
 }
