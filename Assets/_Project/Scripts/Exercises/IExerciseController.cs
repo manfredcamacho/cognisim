@@ -18,4 +18,9 @@ public interface IExerciseController
     /// </summary>
     /// <param name="parameters">The object that contains all the configuration data.</param>
     void Initialize(ExerciseParameters parameters);
+
+    /// <summary>
+    /// Starts the exercise logic.    
+    /// </summary>
+    void StartExercise();
 }

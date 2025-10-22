@@ -10,9 +10,11 @@ using UnityEngine.SceneManagement;
 public class SessionController : MonoBehaviour
 {
    [SerializeField] private Transform exerciseContainer;
+   [SerializeField] private Transform topPanelContainer;
 
     private int currentExerciseIndex = 0;
     private GameObject currentExerciseInstance = null;
+    private GameObject topPanelUIInstance = null;
 
     private void Start()
     {
@@ -34,18 +36,26 @@ public class SessionController : MonoBehaviour
             string exerciseId = exerciseData.exerciseId;
 
             // Build the path to the prefab within the Resources folder.
-            string prefabPath = $"Prefabs/Exercises/{exerciseId}";
-            GameObject exercisePrefab = Resources.Load<GameObject>(prefabPath);
+            string exercisePrefabPath = $"Prefabs/Exercises/{exerciseId}";
+            GameObject exercisePrefab = Resources.Load<GameObject>(exercisePrefabPath);
+
+            // Build the top panel UI for the current patient.
+            string topPanelPrefabPath = "Prefabs/UI/TopPanelUI";
+            GameObject topPanelPrefab = Resources.Load<GameObject>(topPanelPrefabPath);
+            topPanelPrefab.GetComponent<TopPanelController>().SetUserInfo(
+                SessionManager.Instance.CurrentSession.patientName
+            );
 
             if (exercisePrefab == null)
             {
-                Debug.LogError($"Failed to find the exercise prefab at the path: '{prefabPath}'. Please check that the prefab exists and that the 'exerciseId' in the JSON is correct.");
+                Debug.LogError($"Failed to find the exercise prefab at the path: '{exercisePrefabPath}'. Please check that the prefab exists and that the 'exerciseId' in the JSON is correct.");
                 currentExerciseIndex++;
                 StartNextExercise();
                 return;
             }
 
             currentExerciseInstance = Instantiate(exercisePrefab, exerciseContainer);
+            topPanelUIInstance = Instantiate(topPanelPrefab, topPanelContainer);
 
             IExerciseController exerciseController = currentExerciseInstance.GetComponent<IExerciseController>();
 

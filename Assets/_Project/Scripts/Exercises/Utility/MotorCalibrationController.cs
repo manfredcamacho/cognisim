@@ -16,6 +16,7 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
     // --- Public Fields (for Unity Inspector assignment) ---
     [SerializeField] private RectTransform spawnArea; // The canvas area where targets can appear.
     [SerializeField] private Button targetPrefab; // The prefab for the target button.
+    [SerializeField] private Button startButton; // The button to start the exercise.
 
     // --- Private Fields ---
     private ExerciseParameters currentParameters;
@@ -44,8 +45,17 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
             exerciseId = "MotorCalibration"; // Fallback ID
         }
 
-        MetricsManager.Instance.LogEvent(exerciseId, "ExerciseStart");
+        // Set up the start button
+        startButton.onClick.AddListener(StartExercise);
+    }
+
+    public void StartExercise()
+    {
+        // Start the exercise by spawning the first target
         SpawnNextTarget();
+        MetricsManager.Instance.LogEvent(exerciseId, "ExerciseStart");
+        startButton.onClick.RemoveAllListeners();
+        startButton.gameObject.SetActive(false);
     }
 
     private void SpawnNextTarget()
