@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using TMPro;
 
 /// <summary>
 /// Controls the Motor Calibration exercise.
@@ -17,21 +18,42 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
     [SerializeField] private RectTransform spawnArea; // The canvas area where targets can appear.
     [SerializeField] private Button targetPrefab; // The prefab for the target button.
     [SerializeField] private Button startButton; // The button to start the exercise.
+    [SerializeField] private TextMeshProUGUI roundCounter;
+    [SerializeField] private TextMeshProUGUI timer;
 
     // --- Private Fields ---
     private ExerciseParameters currentParameters;
     private string exerciseId;
     private int targetsToSpawn;
     private int targetsCompleted = 0;
-
+    private float delayBetweenTargets = 0.25f; // Delay between target spawns
+    
+    private bool exerciseStarted = false;    
+    private float exerciseStartTime;
     private Button currentTargetInstance;
     private float targetSpawnTime;
+
+    private void Update()
+    {
+        // Update the timer display if the exercise has started
+        if (exerciseStarted)
+        {
+            timer.text = $"{(Time.time - exerciseStartTime):F1} s";
+        }
+        else
+        {
+            timer.text = "0.0 s";
+        }
+
+            updateTargetsCopleted();
+
+    }
 
     public void Initialize(ExerciseParameters parameters)
     {
         currentParameters = parameters;
         targetsToSpawn = currentParameters.numTargets;
-        
+
         // We get the exerciseId from the SessionManager for logging purposes
         // This assumes we are on the correct index, which the SessionController manages.
         int currentIndex = FindMyExerciseIndex();
@@ -52,6 +74,8 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
     public void StartExercise()
     {
         // Start the exercise by spawning the first target
+        exerciseStarted = true;
+        exerciseStartTime = Time.time;
         SpawnNextTarget();
         MetricsManager.Instance.LogEvent(exerciseId, "ExerciseStart");
         startButton.onClick.RemoveAllListeners();
@@ -105,7 +129,7 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
         else
         {
             // Spawn the next one after a short delay
-            StartCoroutine(SpawnWithDelay(0.25f));
+            StartCoroutine(SpawnWithDelay(delayBetweenTargets));
         }
     }
 
@@ -117,6 +141,7 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
 
     private void EndExercise()
     {
+        exerciseStarted = false;
         MetricsManager.Instance.LogEvent(exerciseId, "ExerciseEnd");
         Debug.Log("Motor Calibration exercise finished.");
         
@@ -136,5 +161,10 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
             }
         }
         return -1;
+    }
+
+    private void updateTargetsCopleted()
+    {
+        roundCounter.text = $"Objetivos completados {targetsCompleted}/{targetsToSpawn}";
     }
 }
