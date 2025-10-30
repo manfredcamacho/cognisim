@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class ExerciseParameters
 {
@@ -6,8 +8,11 @@ public class ExerciseParameters
 
     // --- Parameters for the exercise: Advanced Cancellation Task ---
     public string gridSize; // Example: "8x10"
-    public string targetSymbol; // The identifier of the symbol to search for.
+    public string targetShape; // The identifier of the symbol to search for.
+    public string targetColor; // The color of the target shape.
     public int durationSeconds; // Duration of the exercise in seconds.
+    public List<string> distractorShapes;
+    public string distractorsColor; // The color of the distractor shapes. In the future, we might want to support multiple colors.
 
     // --- Parameters for the exercise: Executive Sequencing ---
     public string scenario; // Example: "prepare_breakfast", "make_the_purchase"

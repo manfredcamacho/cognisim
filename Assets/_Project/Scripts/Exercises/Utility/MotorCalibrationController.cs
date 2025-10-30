@@ -49,25 +49,11 @@ public class MotorCalibrationController : MonoBehaviour, IExerciseController
 
     }
 
-    public void Initialize(ExerciseParameters parameters)
+    public void Initialize(string exerciseId, ExerciseParameters parameters)
     {
         currentParameters = parameters;
         targetsToSpawn = currentParameters.numTargets;
-
-        // We get the exerciseId from the SessionManager for logging purposes
-        // This assumes we are on the correct index, which the SessionController manages.
-        int currentIndex = FindMyExerciseIndex();
-        if (currentIndex!= -1)
-        {
-            exerciseId = SessionManager.Instance.CurrentSession.exercises[currentIndex].exerciseId;
-        }
-        else
-        {
-            Debug.LogError("Could not find this exercise's ID in the SessionData!");
-            exerciseId = "MotorCalibration"; // Fallback ID
-        }
-
-        // Set up the start button
+        this.exerciseId = exerciseId;
         startButton.onClick.AddListener(StartExercise);
     }
 

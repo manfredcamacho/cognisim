@@ -73,7 +73,7 @@ public class MetricsManager : MonoBehaviour
         currentSessionResults.sessionEndTime = DateTime.UtcNow.ToString("o");
 
         string json = JsonUtility.ToJson(currentSessionResults, true); // 'true' for pretty printing
-        string fileName = $"Results_{currentSessionResults.patientId}_{currentSessionResults.sessionId}.json";
+        string fileName = $"Results_{currentSessionResults.patientId}_{currentSessionResults.sessionId}_{DateTime.Now.ToString("yyyyMMdd_hhmmss")}.json";
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
 
         try

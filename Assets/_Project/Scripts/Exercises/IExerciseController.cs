@@ -17,7 +17,7 @@ public interface IExerciseController
     /// Initializes the exercise with the specific parameters loaded from the JSON.
     /// </summary>
     /// <param name="parameters">The object that contains all the configuration data.</param>
-    void Initialize(ExerciseParameters parameters);
+    void Initialize(string exerciseId, ExerciseParameters parameters);
 
     /// <summary>
     /// Starts the exercise logic.    

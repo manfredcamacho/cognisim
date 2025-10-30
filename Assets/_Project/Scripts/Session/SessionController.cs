@@ -67,7 +67,7 @@ public class SessionController : MonoBehaviour
 
             // Subscribe to the completion event and initialize it.
             exerciseController.OnExerciseComplete += HandleExerciseCompleted;
-            exerciseController.Initialize(exerciseData.parameters);
+            exerciseController.Initialize(exerciseId, exerciseData.parameters);
         }
         else
         {

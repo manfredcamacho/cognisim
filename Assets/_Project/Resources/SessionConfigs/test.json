@@ -2,12 +2,22 @@
   "sessionId": "mvp_test_001",
   "patientId": "ID_GRTE465",
   "patientName": "Juancito Perez",
-  "exercises": [{
+  "exercises": [
+    {
+      "exerciseId": "Attention_Cancellation",
+      "parameters": {
+        "targetShape": "shape_3",
+        "targetColor": "orange",
+        "gridSize": "4x4",
+        "durationSeconds": 30,
+        "distractorsColor": "yellow"
+      }
+    },
+    {
       "exerciseId": "Motor_Calibration",
       "parameters": {
         "numTargets": 10
       }
-
     }
   ]
 }
