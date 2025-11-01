@@ -1,8 +1,14 @@
 {
-  "sessionId": "mvp_test_001",
+  "sessionId": "test_001",
   "patientId": "ID_GRTE465",
-  "patientName": "Juancito Perez",
+  "patientName": "Gerardo Gutierrez",
   "exercises": [
+    {
+      "exerciseId": "Sequencing_AVD",
+      "parameters": {
+        "scenario": "cook_pasta"
+      }
+    },
     {
       "exerciseId": "Attention_Cancellation",
       "parameters": {
