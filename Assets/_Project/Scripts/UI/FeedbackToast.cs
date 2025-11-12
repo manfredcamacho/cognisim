@@ -7,9 +7,15 @@ public class FeedbackToast : MonoBehaviour
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Image panelBackground;
     [SerializeField] private float displayDuration = 2.0f;
+    [SerializeField] private Image iconImage;
 
     private float timer = 0.0f;
     private bool isDisplaying = false;
+
+    private void Start()
+    {
+        iconImage.sprite = Resources.Load<Sprite>($"Icons/Info");
+    }
 
     void Update()
     {
@@ -26,7 +32,10 @@ public class FeedbackToast : MonoBehaviour
     public void ShowMessage(string message, MessageType type)
     {
         messageText.text = message;
-        panelBackground.color = GetColorForMessageType(type);
+        Color color = GetColorForMessageType(type);
+        panelBackground.color = color;
+        iconImage.sprite = Resources.Load<Sprite>($"Icons/{type.ToString()}");
+        iconImage.color = color;
 
         isDisplaying = true;
         timer = 0.0f;
@@ -44,14 +53,14 @@ public class FeedbackToast : MonoBehaviour
         switch (type)
         {
             case MessageType.Success:
-                return new Color(70, 214, 99);
+                return new Color(70f / 255f, 214f / 255f, 99f / 255f);
             case MessageType.Error:
-                return Color.red;
+                return new Color(247f / 255f, 72f / 255f, 80f / 255f);
             case MessageType.Warning:
-                return new Color(255, 165, 0);
+                return new Color(255f / 255f, 165f / 255f, 0f / 255f);
             case MessageType.Info:
             default:
-                return Color.blue;
+                return new Color(0f, 122f / 255f, 255f / 255f);
         }
     }
 

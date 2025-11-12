@@ -23,16 +23,16 @@ public class SessionManager : MonoBehaviour
     /// <summary>
     /// Loads the session data for a specific patient from a JSON file.
     /// </summary>
-    /// <param name="patientId">The identifier of the patient, used to find the configuration file.</param>
+    /// <param name="sessionId">The identifier of the session, used to find the configuration file.</param>
     /// <returns>True if the session was loaded correctly, False otherwise.</returns>
-    public bool LoadSession(string patientId)
+    public bool LoadSession(string sessionId)
     {
         // TODO: In the future, this section will be replaced by a call to a web API.
         // The API logic will fill the 'CurrentSession' object in the same way.
 
         // Build the relative path within the Resources folder.
         // We don't include the .json extension, because Resources.Load doesn't need it.
-        string filePath = Path.Combine("SessionConfigs", patientId);
+        string filePath = Path.Combine("SessionConfigs", sessionId);
 
         TextAsset textAsset = Resources.Load<TextAsset>(filePath);
 

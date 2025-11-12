@@ -5,26 +5,34 @@ using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField patientIdField;
+    [SerializeField] private TMP_InputField sessionIdField;
     [SerializeField] private Button startSessionButton;
+    [SerializeField] private Button startAsGuestButton;
     [SerializeField] private TextMeshProUGUI feedbackText;
 
     private void Start()
     {
         startSessionButton.onClick.AddListener(OnStartSessionClicked);
+        startAsGuestButton.onClick.AddListener(OnStartAsGuestClicked);
         feedbackText.text = "";
+    }
+
+    private void OnStartAsGuestClicked()
+    {
+        // Start a guest session without loading any specific session data.
+        SceneManager.LoadScene("01_ExerciseList");
     }
 
     private void OnStartSessionClicked()
     {
-        string patientId = patientIdField.text;
-        if (string.IsNullOrEmpty(patientId))
+        string sessionId = sessionIdField.text;
+        if (string.IsNullOrEmpty(sessionId))
         {
-            feedbackText.text = "Please enter a Patient ID.";
+            feedbackText.text = "Ingrese un ID de Sesión";
             return;
         }
 
-        bool sessionLoaded = SessionManager.Instance.LoadSession(patientId);
+        bool sessionLoaded = SessionManager.Instance.LoadSession(sessionId);
 
         if (sessionLoaded)
         {
@@ -37,7 +45,7 @@ public class MainMenuController : MonoBehaviour
         }
         else
         {
-            feedbackText.text = $"Failed to load session for ID: {patientId}. Check console for errors.";
+            feedbackText.text = $"Failed to load session for ID: {sessionId}. Check console for errors.";
         }
     }
 }

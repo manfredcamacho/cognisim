@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using TMPro;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -17,7 +16,6 @@ public class CancellationTaskController : MonoBehaviour, IExerciseController, IP
     [SerializeField] private GridLayoutGroup gridLayout;
     [SerializeField] private ShapeItem ShapeItemPrefab;
     [SerializeField] private RectTransform gridContainer;
-    [SerializeField] private Button startButton;
     [SerializeField] private Image targetShapeImage;
     [SerializeField] private TextMeshProUGUI remainingTimeText;
     [SerializeField] private TextMeshProUGUI remainingTargetsText;
@@ -56,8 +54,6 @@ public class CancellationTaskController : MonoBehaviour, IExerciseController, IP
         this.durationSeconds = parameters.durationSeconds;
         remainingTargetsText.text = $"Objetivos restantes: {totalTargets}";
         this.remainingTimeText.text = $"{(durationSeconds):F1} s";
-        this.startButton.onClick.AddListener(StartExercise);
-
     }
 
     public void StartExercise()
@@ -66,9 +62,6 @@ public class CancellationTaskController : MonoBehaviour, IExerciseController, IP
         exerciseStarted = true;
         exerciseStartTime = Time.time;
         MetricsManager.Instance.LogEvent(exerciseId, "ExerciseStart");
-        startButton.onClick.RemoveAllListeners();
-        startButton.gameObject.SetActive(false);
-
         StartCoroutine(TimerCoroutine(this.durationSeconds));
     }
 
@@ -95,6 +88,11 @@ public class CancellationTaskController : MonoBehaviour, IExerciseController, IP
             newItem.color = Color.clear;
 
             bool isTarget = (UnityEngine.Random.value > 0.7f); // 30% chance of being a target
+
+            if(i == ((rows * cols) - 1) && totalTargets == 0)
+            {
+                isTarget = true; // Ensure at least one target
+            }
 
             if (isTarget)
             {
