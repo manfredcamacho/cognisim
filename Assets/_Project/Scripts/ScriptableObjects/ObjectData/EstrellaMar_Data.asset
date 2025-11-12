@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79be62905388db140993a85928b00e15, type: 3}
   m_Name: EstrellaMar_Data
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
-  displayName: Estrella de Mar
+  displayName: una Estrella de Mar
   category: 0
   tags:
   - 5 puntas

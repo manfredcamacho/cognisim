@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79be62905388db140993a85928b00e15, type: 3}
   m_Name: BaldeArenero_Data
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
-  displayName: Balde
+  displayName: ' un Balde'
   category: 0
   tags:
   - Para llenar

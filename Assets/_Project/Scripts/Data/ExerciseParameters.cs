@@ -21,4 +21,8 @@ public class ExerciseParameters
     public string imageSetId; // Identifier of the image set to load (example: "family_perez")
     public int displayTimeSeconds; // Time each image is displayed on the screen in seconds.
     public int numDistractors; // Number of distractor images to use in the recognition phase.
+
+    // --- Parameters for the exercise: 360 Visual Search  ---
+    public string environmentId; // Ej: "bathroom_01"
+    public List<string> targetObjects; // List of target object identifiers to find in the environment.
 }

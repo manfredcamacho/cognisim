@@ -6,22 +6,25 @@ public class InteractableObject : MonoBehaviour
     public ObjectData objectData;
 
     [Tooltip("Propiedad específica de esta instancia, como su color.")]
-    public string instanceColor; // Podría ser un enum también si los colores son fijos.
+    public string instanceColor;
 
-    // Podríamos añadir más propiedades de instancia aquí, como la ubicación.
     public string instanceLocation;
 
+#if UNITY_EDITOR
     void OnValidate()
     {
-        // Pequeño truco para que el nombre del GameObject en la jerarquía refleje
-        // el tipo de objeto y su color, facilitando la organización.
-        if (objectData != null && !string.IsNullOrEmpty(instanceColor))
+        // Only run this in the Unity Editor, not at runtime
+        if (!UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
         {
-            gameObject.name = $"{objectData.displayName} ({instanceColor})";
-        }
-        else if (objectData != null)
-        {
-            gameObject.name = objectData.displayName;
+            if (objectData != null && !string.IsNullOrEmpty(instanceColor))
+            {
+                gameObject.name = $"{objectData.displayName} ({instanceColor})";
+            }
+            else if (objectData != null)
+            {
+                gameObject.name = objectData.displayName;
+            }
         }
     }
+#endif
 }

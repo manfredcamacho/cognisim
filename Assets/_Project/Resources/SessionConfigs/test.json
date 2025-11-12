@@ -1,18 +1,18 @@
 {
-  "sessionId": "test_001",
+  "sessionId": "test_di_test",
   "patientId": "ID_GRTE465",
-  "patientName": "Gerardo Gutierrez",
+  "patientName": "Juanito Perez",
   "exercises": [
     {
-      "exerciseId": "Sequencing_AVD",
+      "exerciseId": "Motor_Calibration",
       "parameters": {
-        "scenario": "cook_pasta"
+        "numTargets": 10
       }
     },
     {
       "exerciseId": "Attention_Cancellation",
       "parameters": {
-        "targetShape": "shape_3",
+        "targetShape": "shape_5",
         "targetColor": "orange",
         "gridSize": "4x4",
         "durationSeconds": 30,
@@ -20,9 +20,9 @@
       }
     },
     {
-      "exerciseId": "Motor_Calibration",
+      "exerciseId": "Sequencing_AVD",
       "parameters": {
-        "numTargets": 10
+        "scenario": "cook_pasta"
       }
     }
   ]

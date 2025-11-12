@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79be62905388db140993a85928b00e15, type: 3}
   m_Name: PelotaFutbol_Data
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
-  displayName: Pelota de Futbol
+  displayName: una Pelota de Futbol
   category: 0
   tags:
   - redondo

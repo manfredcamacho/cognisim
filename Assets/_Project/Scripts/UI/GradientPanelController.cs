@@ -155,9 +155,9 @@ public class GradientPanel : MaskableGraphic
         }
     }
 
-    protected override void OnValidate()
+    protected void OnValidate()
     {
-        base.OnValidate();
+        //base.OnValidate();
         SetVerticesDirty();
         SetMaterialDirty();
     }
