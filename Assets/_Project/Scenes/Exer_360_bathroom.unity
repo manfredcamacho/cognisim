@@ -1529,7 +1529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cccf31dedd02ac49802ca74d0dfcda1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject360
-  objectId: "Ba\xF1era"
+  objectId: Banera
   feedbackVisual: {fileID: 286112288}
 --- !u!1 &1183131239
 GameObject:
@@ -3121,7 +3121,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763499368}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b71ae818a85d1624cae479b85904b226, type: 3}
   m_Name: 
@@ -3143,7 +3143,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763499368}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0202e552d7e72b48a5d4b6cad55942b, type: 3}
   m_Name: 
@@ -3882,11 +3882,7 @@ MonoBehaviour:
   dialogsToShow:
   - {fileID: 2101148255}
   - {fileID: 193669518}
-  targetsToFind:
-  - Flores
-  - Toalla
-  - "Ba\xF1era"
-  - Lavarropa
+  targetsToFind: []
 --- !u!1 &5832810791603272711
 GameObject:
   m_ObjectHideFlags: 0
